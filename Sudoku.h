@@ -3,15 +3,6 @@
 #include <string>
 #include <vector>
 
-class ChessBoard{
-private:
-	int chess_board[9][9];
-public:
-	bool is_legal_set(int x, int y, int number);
-	int set_number(int x, int y, int number);
-	int get_number(int x, int y);
-};
-
 class Sudoku{
 private:
 	Sudoku(){}; // 这里把Sudoku写成个工具类吧
@@ -30,7 +21,7 @@ private:
 public:
 	static void solve_game(std::string source_path); // 解游戏
 	static void gen_over(int game_nums); // 生成终局
-	static void gen_game(int game_nums); // 生成游戏
+	static void gen_game(int game_nums); // 生成游戏，这里还差几个参数
 };
 
 #endif

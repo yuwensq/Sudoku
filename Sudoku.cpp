@@ -6,7 +6,8 @@
 #include <assert.h>
 
 #define SOV_TARGET_PATH "sudoku.txt"
-#define GEN_TARGET_PATH "game.txt"
+#define GEN_OVER_TARGET_PATH "gened_game.txt"
+#define GEN_GAME_TARGET_PATH "gen_game.txt"
 //#define DEBUG_SUDOKU
 
 void Sudoku::print_chess_borad(int chess_board[9][9], std::ofstream& output) {
@@ -77,8 +78,35 @@ bool Sudoku::solve_single_game(int chess_board[9][9], bool change_chess) {
 }
 
 void Sudoku::gen_single_over(int chess_board[9][9]) {
+	static int offset[] = {0, 3, 6, 1, 7, 4, 2, 5, 8}; // 这个是不是定义成全局变量比较好？
 	static int first_row[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-	
+	static int bunch[] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
+
+	for (int i = 0; i < 9; i++)
+		for (int j = 0; j < 9; j++)
+			chess_board[i][j] = first_row[(j + offset[bunch[i]]) % 9];
+
+	int start = 1, end = 2;
+	bool no_need_carry = true;
+	no_need_carry = std::next_permutation(bunch + 1, bunch + 3);
+	if (no_need_carry)
+		goto END;
+	no_need_carry = std::next_permutation(bunch + 3, bunch + 6);
+	if (no_need_carry)
+		goto RESET;
+	end += 3;
+	no_need_carry = std::next_permutation(bunch + 6, bunch + 9);
+	if (no_need_carry)
+		goto RESET;
+	end += 3;
+	no_need_carry = std::next_permutation(first_row, first_row + 9); // 这个要是再进位就没办法了
+	assert(no_need_carry);
+
+RESET:
+	for (int i = start; i <= end; i++)
+		bunch[i] = i;
+END:
+	return;
 }
 
  void Sudoku::solve_game(std::string source_path) {
@@ -113,6 +141,13 @@ void Sudoku::gen_single_over(int chess_board[9][9]) {
 
  void Sudoku::gen_over(int game_nums) {
 	int chess_board[9][9];
+	std::ofstream output;
+	output.open(GEN_OVER_TARGET_PATH);
+	for (int i = 0; i < game_nums; i++) {
+		gen_single_over(chess_board);
+		print_chess_borad(chess_board, output);
+	}
+	output.close();
  }
 
  void Sudoku::gen_game(int game_nums) {
