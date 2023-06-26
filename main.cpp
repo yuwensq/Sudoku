@@ -5,9 +5,9 @@
 
 using namespace std;
 
-//#define DEBUG_ARG_PARSER
+#define DEBUG_ARG_PARSER
 
-enum 
+enum
 {
 	NONE,
 	GEN_OVER,
@@ -15,7 +15,7 @@ enum
 	SOV_GAME
 };
 
-enum 
+enum
 {
 	BOT, // 未定义难度
 	EASY,
@@ -26,11 +26,11 @@ enum
 int op_type = NONE; // 操作类型
 int game_nums; // 要生成的游戏数或终局数
 string game_path; // 求解游戏的源文件
-int diffculty = BOT; // 难度
+int diffculty = BOT;// 难度
 int lattice_num = 0;
 bool only_one_res = false;
 
-void parser_arg(int argc, char *argv[]) {
+void parser_arg(int argc, char* argv[]) {
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "-c")) {
 			if (op_type != NONE) {
@@ -87,17 +87,17 @@ void parser_arg(int argc, char *argv[]) {
 			only_one_res = true;
 		}
 		else {
-			cout << "arguments arror" <<endl;
+			cout << "arguments arror" << endl;
 			exit(0);
 		}
 	}
 	if (op_type != GEN_GAME && (only_one_res || diffculty != BOT || lattice_num != 0)) {
-		cout << "arguments error" <<endl;
+		cout << "arguments error" << endl;
 		exit(0);
 	}
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 	parser_arg(argc, argv);
 
 #ifdef DEBUG_ARG_PARSER
@@ -115,6 +115,7 @@ int main(int argc, char *argv[]) {
 		Sudoku::gen_over(game_nums);
 		break;
 	case GEN_GAME:
+		Sudoku::gen_game(game_nums, diffculty, lattice_num, only_one_res);
 		break;
 	case SOV_GAME:
 		Sudoku::solve_game(game_path);

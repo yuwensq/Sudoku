@@ -4,6 +4,8 @@
 #include <fstream>
 #include <vector>
 #include <assert.h>
+#include <stdlib.h>
+#include <time.h> 
 
 #define SOV_TARGET_PATH "sudoku.txt"
 #define GEN_OVER_TARGET_PATH "gened_game.txt"
@@ -15,15 +17,15 @@ void Sudoku::print_chess_borad(int chess_board[9][9], std::ofstream& output) {
 		for (int j = 0; j < 9; j++) {
 			if (chess_board[i][j] != 0)
 				output << (char)('0' + chess_board[i][j]);
-			else 
+			else
 				output << '$';
 		}
 		output << std::endl;
 	}
 	output << std::endl;
 }
-
 bool Sudoku::is_legal(int chess_board[9][9], int i, int j, int k) {
+
 	assert(k >= 1 && k <= 9);
 	int i_start = i - i % 3;
 	int j_start = j - j % 3; // 所处的九宫格的左上方的坐标
@@ -33,7 +35,7 @@ bool Sudoku::is_legal(int chess_board[9][9], int i, int j, int k) {
 	return true;
 }
 
-bool Sudoku::solve(int chess_board[9][9], std::vector<std::pair<int, int>> &zeros, int pos) {
+bool Sudoku::solve(int chess_board[9][9], std::vector<std::pair<int, int>>& zeros, int pos) {
 	if (pos == zeros.size())
 		return true;
 	bool res = false;
@@ -52,7 +54,7 @@ bool Sudoku::solve(int chess_board[9][9], std::vector<std::pair<int, int>> &zero
 }
 
 bool Sudoku::solve_single_game(int chess_board[9][9], bool change_chess) {
-	int (*chess_b)[9] = chess_board;
+	int(*chess_b)[9] = chess_board;
 	bool res = false;
 	if (change_chess == false) {
 		int chess_size = 81 * sizeof(int);
@@ -78,9 +80,9 @@ bool Sudoku::solve_single_game(int chess_board[9][9], bool change_chess) {
 }
 
 void Sudoku::gen_single_over(int chess_board[9][9]) {
-	static int offset[] = {0, 3, 6, 1, 7, 4, 2, 5, 8}; // 这个是不是定义成全局变量比较好？
-	static int first_row[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-	static int bunch[] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
+	static int offset[] = { 0, 3, 6, 1, 7, 4, 2, 5, 8 }; // 这个是不是定义成全局变量比较好？
+	static int first_row[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	static int bunch[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 
 	for (int i = 0; i < 9; i++)
 		for (int j = 0; j < 9; j++)
@@ -109,7 +111,7 @@ END:
 	return;
 }
 
- void Sudoku::solve_game(std::string source_path) {
+void Sudoku::solve_game(std::string source_path) {
 	int chess_board[9][9] = {};
 	std::ifstream input;
 	input.open(source_path);
@@ -139,7 +141,7 @@ END:
 	output.close();
 }
 
- void Sudoku::gen_over(int game_nums) {
+void Sudoku::gen_over(int game_nums) {
 	int chess_board[9][9];
 	std::ofstream output;
 	output.open(GEN_OVER_TARGET_PATH);
@@ -148,8 +150,76 @@ END:
 		print_chess_borad(chess_board, output);
 	}
 	output.close();
- }
+}
 
- void Sudoku::gen_game(int game_nums) {
- 
- }
+void printcb(int chess_board[9][9]) {
+	for (int ci = 0; ci < 9; ci++) {
+		for (int ri = 0; ri < 9; ri++) {
+			std::cout << chess_board[ci][ri] << ' ';
+		}
+		std::cout << std::endl;
+	}
+}
+void Sudoku::gen_single_game(int chess_board[9][9], int diffculty, int lattice_num, bool only_one_res) {
+	srand((unsigned)time(NULL));
+	//lattice_num按-r、-m的优先级计算
+	if (lattice_num == 0) {
+		if (diffculty != 0) lattice_num = (rand() % 15) + diffculty * 15 - 4;
+		else lattice_num = (rand() % 36) + 20;
+	}
+	//printcb(chess_board);
+	bool f_chess_board[9][9] = {0};
+	for (int i = 0; i < lattice_num; i++) {
+RANDCR:
+		bool full = true;
+		for (int ci = 0; ci < 9; ci++) {
+			for (int ri = 0; ri < 9; ri++) {
+				full &= f_chess_board[ci][ri];
+			}
+		}
+		if (full) {
+			std::cout << "无法生成"<< lattice_num << "个空的唯一的数独" << std::endl;
+			break;
+		}
+
+		int col, row ;
+		do {
+			col = rand() % 9;
+			row = rand() % 9;
+		} while (f_chess_board[row][col]);
+
+		if (only_one_res) {
+			int ori = chess_board[row][col];
+			bool f = true;
+			for (int j = 1; j <= 9; j++) {
+				if (j == ori) continue;
+				if (is_legal(chess_board, row, col, j)) {
+					chess_board[row][col] = j;
+					if(solve_single_game(chess_board, false)){
+						f_chess_board[row][col] = true;
+						f = false;
+						break;
+					}
+				}
+			}
+			chess_board[row][col] = ori;
+			if (!f) {
+				goto RANDCR;
+			}
+		}
+		chess_board[row][col] = 0;
+		f_chess_board[row][col] = true;
+	}
+}
+
+void Sudoku::gen_game(int game_nums, int diffculty, int lattice_num, bool only_one_res) {
+	int chess_board[9][9];
+	std::ofstream output;
+	output.open(GEN_GAME_TARGET_PATH);
+	for (int i = 0; i < game_nums; i++) {
+		gen_single_over(chess_board);
+		gen_single_game(chess_board, diffculty, lattice_num, only_one_res);
+		print_chess_borad(chess_board, output);
+	}
+	output.close();
+}
