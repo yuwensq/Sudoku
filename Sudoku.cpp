@@ -191,59 +191,74 @@ void printcb(int chess_board[9][9]) {
 		std::cout << std::endl;
 	}
 }
-void Sudoku::gen_single_game(int chess_board[9][9], int diffculty, int lattice_num, bool only_one_res) {
+void Sudoku::gen_single_game(int chess_board[9][9], int diffculty, int min_lattice_num,int max_lattice_num, bool only_one_res) {
 	srand((unsigned)time(NULL));
-	//lattice_num按-r、-m的优先级计算
-	if (lattice_num == 0) {
+
+	//计算lattice_num，按-r、-m的优先级
+	int lattice_num = 0;
+	if ((min_lattice_num != 0) && (max_lattice_num >= min_lattice_num)) {
+		lattice_num = (rand() % (max_lattice_num - min_lattice_num + 1)) + min_lattice_num;
+	}
+	else{
 		if (diffculty != 0) lattice_num = (rand() % 15) + diffculty * 15 - 4;
 		else lattice_num = (rand() % 36) + 20;
 	}
-	//printcb(chess_board);
-	bool f_chess_board[9][9] = {0};
-	for (int i = 0; i < lattice_num; i++) {
-RANDCR:
-		bool full = true;
-		for (int ci = 0; ci < 9; ci++) {
-			for (int ri = 0; ri < 9; ri++) {
-				full &= f_chess_board[ci][ri];
-			}
-		}
-		if (full) {
-			std::cout << "无法生成"<< lattice_num << "个空的唯一的数独" << std::endl;
-			break;
-		}
 
-		int col, row ;
-		do {
-			col = rand() % 9;
-			row = rand() % 9;
-		} while (f_chess_board[row][col]);
+	bool f_chess_board[9][9];//记录该位置是否被随机过
+	bool full = true;//记录是否全部位置都被随机过
 
-		if (only_one_res) {
-			int ori = chess_board[row][col];
-			bool f = true;
-			for (int j = 1; j <= 9; j++) {
-				if (j == ori) continue;
-				if (is_legal(chess_board, row, col, j)) {
-					chess_board[row][col] = j;
-					if(solve_single_game(chess_board, false)){
-						f_chess_board[row][col] = true;
-						f = false;
-						break;
-					}
+	while (full) {
+		gen_single_over(chess_board);//重新生成终局
+		memset(f_chess_board, 0, sizeof(f_chess_board));
+
+		//生成lattice_num个空
+		for (int i = 0; i < lattice_num; i++) {
+		RANDCR:
+			//若全部位置都已被随机过，跳出
+			full = true;
+			for (int ci = 0; ci < 9; ci++) {
+				for (int ri = 0; ri < 9; ri++) {
+					full &= f_chess_board[ci][ri];
 				}
 			}
-			chess_board[row][col] = ori;
-			if (!f) {
-				goto RANDCR;
+			if (full) {
+				break;
 			}
+
+			//随机选一个空位置
+			int col, row;
+			do {
+				col = rand() % 9;
+				row = rand() % 9;
+			} while (f_chess_board[row][col]);
+
+			//要求唯一解，将该空换成其他的数看是否有解，有解则更换这一个空
+			if (only_one_res) {
+				int ori = chess_board[row][col];
+				bool f = true;
+				for (int j = 1; j <= 9; j++) {
+					if (j == ori) continue;
+					if (is_legal(chess_board, row, col, j)) {
+						chess_board[row][col] = j;
+						if (solve_single_game(chess_board, false)) {
+							f_chess_board[row][col] = true;
+							f = false;
+							break;
+						}
+					}
+				}
+				chess_board[row][col] = ori;
+				if (!f) {
+					goto RANDCR;
+				}
+			}
+			chess_board[row][col] = 0;
+			f_chess_board[row][col] = true;
 		}
-		chess_board[row][col] = 0;
-		f_chess_board[row][col] = true;
 	}
 }
 
-void Sudoku::gen_game(int game_nums, int diffculty, int lattice_num, bool only_one_res) {
+void Sudoku::gen_game(int game_nums, int diffculty, int min_lattice_num, int max_attice_num, bool only_one_res) {
 	int step =  game_nums / 10;
 	std::cout << "开始生成" << game_nums << "个数独游戏" << std::endl;
 
@@ -251,8 +266,7 @@ void Sudoku::gen_game(int game_nums, int diffculty, int lattice_num, bool only_o
 	std::ofstream output;
 	output.open(GEN_GAME_TARGET_PATH);
 	for (int i = 0; i < game_nums; i++) {
-		gen_single_over(chess_board);
-		gen_single_game(chess_board, diffculty, lattice_num, only_one_res);
+		gen_single_game(chess_board, diffculty, min_lattice_num, max_attice_num, only_one_res);
 		print_chess_borad(chess_board, output);
 		if ((i + 1) % step == 0) {
 			std::cout << "已生成" << i + 1 << "个数独游戏" << "(" << 100.0 * (i + 1) / game_nums << "%)" << std::endl;

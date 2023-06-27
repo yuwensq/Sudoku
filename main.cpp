@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -134,7 +136,7 @@ int main(int argc, char* argv[]) {
 		Sudoku::gen_over(game_nums);
 		break;
 	case GEN_GAME:
-		Sudoku::gen_game(game_nums, diffculty, lattice_num, only_one_res);
+		Sudoku::gen_game(game_nums, diffculty, min_lattice_num, max_lattice_num, only_one_res);
 		break;
 	case SOV_GAME:
 		Sudoku::solve_game(game_path);

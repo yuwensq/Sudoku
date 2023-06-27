@@ -19,11 +19,11 @@ private:
 	// 将棋盘打印至文件，这里要先定义一个ofstream
 	static void print_chess_borad(int chess_borad[9][9], std::ofstream& output);
 	// 生成一个游戏
-	static void gen_single_game(int chess_board[9][9], int diffculty, int lattice_num, bool only_one_res);
+	static void gen_single_game(int chess_board[9][9], int diffculty, int min_lattice_num,int max_lattice_num, bool only_one_res);
 public:
 	static void solve_game(std::string source_path); // 解游戏
 	static void gen_over(int game_nums); // 生成终局
-	static void gen_game(int game_nums, int diffculty, int lattice_num, bool only_one_res); // 生成游戏
+	static void gen_game(int game_nums, int diffculty, int min_lattice_num, int max_attice_num, bool only_one_res); // 生成游戏
 };
 
 #endif
