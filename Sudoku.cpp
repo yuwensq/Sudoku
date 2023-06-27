@@ -13,16 +13,18 @@
 //#define DEBUG_SUDOKU
 
 void Sudoku::print_chess_borad(int chess_board[9][9], std::ofstream& output) {
+	std::string s = "";
 	for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 9; j++) {
 			if (chess_board[i][j] != 0)
-				output << (char)('0' + chess_board[i][j]);
+				s += (char)('0' + chess_board[i][j]);
 			else
-				output << '$';
+				s += '$';
 		}
-		output << std::endl;
+		s += '\n';
 	}
-	output << std::endl;
+	s += '\n';
+	output << s;
 }
 bool Sudoku::is_legal(int chess_board[9][9], int i, int j, int k) {
 
@@ -112,14 +114,31 @@ END:
 }
 
 void Sudoku::solve_game(std::string source_path) {
-	int chess_board[9][9] = {};
+	std::cout << "开始求解数独，文件路径: " << source_path << std::endl;
 	std::ifstream input;
 	input.open(source_path);
+	char c;
+	int chess_num = 0;
+	int game_no = 0;
+	while (input >> c) {
+		chess_num++;
+		if (chess_num < 81)
+			continue;
+		chess_num = 0;
+		game_no++;
+	}
+	input.close();
+	std::cout << "文件中共有" << game_no << "个数独游戏" << std::endl;
+	int game_nums = game_no;
+	int step = game_nums / 10;
+
+	input.open(source_path);
+	chess_num = 0;
+	game_no = 1;
+	int chess_board[9][9] = {};
 	std::ofstream output;
 	output.open(SOV_TARGET_PATH);
-	int chess_num = 0;
-	int game_no = 1;
-	char c;
+
 	while (input >> c) {
 		chess_board[chess_num / 9][chess_num % 9] = (c == '$') ? 0 : c - '0';
 		chess_num++;
@@ -128,28 +147,40 @@ void Sudoku::solve_game(std::string source_path) {
 		if (solve_single_game(chess_board)) {
 			print_chess_borad(chess_board, output);
 			chess_num = 0;
-			game_no++;
 		}
 		else {
 			std::cout << "第" << game_no << "个游戏无解" << std::endl;
-			input.close();
-			output.close();
-			exit(0);
+			// input.close();
+			// output.close();
+			// exit(0);
 		}
+		if (game_no % step == 0) {
+			std::cout << "已求解" << game_no << "个数独游戏" << "(" << 100.0 * game_no / game_nums << "%)" << std::endl;
+		}
+		game_no++;
 	}
 	input.close();
 	output.close();
+	std::cout << "数独求解完毕" << std::endl;
 }
 
 void Sudoku::gen_over(int game_nums) {
+	int step =  game_nums / 10;
+	std::cout << "开始生成" << game_nums << "个数独终局" << std::endl;
+
 	int chess_board[9][9];
 	std::ofstream output;
 	output.open(GEN_OVER_TARGET_PATH);
 	for (int i = 0; i < game_nums; i++) {
 		gen_single_over(chess_board);
 		print_chess_borad(chess_board, output);
+		if ((i + 1) % step == 0) {
+			std::cout << "已生成" << i + 1 << "个数独终局" << "(" << 100.0 * (i + 1) / game_nums << "%)" << std::endl;
+		}
 	}
 	output.close();
+
+	std::cout << "终局生成完毕" << std::endl;
 }
 
 void printcb(int chess_board[9][9]) {
@@ -213,6 +244,9 @@ RANDCR:
 }
 
 void Sudoku::gen_game(int game_nums, int diffculty, int lattice_num, bool only_one_res) {
+	int step =  game_nums / 10;
+	std::cout << "开始生成" << game_nums << "个数独游戏" << std::endl;
+
 	int chess_board[9][9];
 	std::ofstream output;
 	output.open(GEN_GAME_TARGET_PATH);
@@ -220,6 +254,11 @@ void Sudoku::gen_game(int game_nums, int diffculty, int lattice_num, bool only_o
 		gen_single_over(chess_board);
 		gen_single_game(chess_board, diffculty, lattice_num, only_one_res);
 		print_chess_borad(chess_board, output);
+		if ((i + 1) % step == 0) {
+			std::cout << "已生成" << i + 1 << "个数独游戏" << "(" << 100.0 * (i + 1) / game_nums << "%)" << std::endl;
+		}
 	}
 	output.close();
+
+	std::cout << "数独游戏生成完毕" << std::endl;
 }

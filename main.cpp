@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <chrono>
 #include "Sudoku.h"
 
 using namespace std;
@@ -27,6 +28,8 @@ int op_type = NONE; // 操作类型
 int game_nums; // 要生成的游戏数或终局数
 string game_path; // 求解游戏的源文件
 int diffculty = BOT;// 难度
+int min_lattice_num = 0;
+int max_lattice_num = 0;
 int lattice_num = 0;
 bool only_one_res = false;
 
@@ -77,7 +80,21 @@ void parser_arg(int argc, char* argv[]) {
 			i++;
 		}
 		else if (!strcmp(argv[i], "-r")) {
-			if (i + 1 >= argc || (lattice_num = atoi(argv[i + 1])) < 20 || lattice_num > 55) {
+			if (i + 1 < argc) {
+				char *token = strtok(argv[i + 1], "~");
+				if (token == NULL)
+					goto RERROR;
+				min_lattice_num = atoi(token);
+				token = strtok(NULL, "~");
+				if (token == NULL)
+					goto RERROR;
+				max_lattice_num = atoi(token);
+				if (min_lattice_num < 20 || min_lattice_num > 55 || max_lattice_num < 20 || max_lattice_num > 55 || min_lattice_num > max_lattice_num) {
+					goto RERROR;
+				}
+			}
+			else {
+				RERROR:
 				cout << "-r argument error" << endl;
 				exit(0);
 			}
@@ -105,10 +122,12 @@ int main(int argc, char* argv[]) {
 	cout << "game_nums: " << game_nums << endl;
 	cout << "game_path: " << game_path << endl;
 	cout << "diffculty: " << diffculty << endl;
-	cout << "lattice_num: " << lattice_num << endl;
 	cout << "only_one_res: " << only_one_res << endl;
+	cout << "min_lattice_num: " << min_lattice_num << endl;
+	cout << "max_lattice_num: " << max_lattice_num << endl;
 #endif
 
+	auto t_start = chrono::high_resolution_clock::now();
 	switch (op_type)
 	{
 	case GEN_OVER:
@@ -123,4 +142,9 @@ int main(int argc, char* argv[]) {
 	default:
 		break;
 	}
+	auto t_end = chrono::high_resolution_clock::now();
+	cout << "用时";
+	cout << chrono::duration_cast<chrono::microseconds>(t_end - t_start).count() / 1000000.0;
+	cout << "s";
+	return 0;
 }
