@@ -1,0 +1,2 @@
+D:\Mycodes\VSProject\sudoku\x64\Debug\sudoku.exe.lastcodeanalysissucceeded
+D:\Mycodes\VSProject\sudoku\Sudoku\x64\Debug\NativeCodeAnalysis.read.1.tlog
