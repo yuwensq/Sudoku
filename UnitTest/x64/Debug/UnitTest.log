@@ -1,2 +1,4 @@
-﻿  UnitTest.cpp
+﻿  pch.cpp
+  UnitTest.cpp
+    正在创建库 D:\Mycodes\VSProject\sudoku\x64\Debug\UnitTest.lib 和对象 D:\Mycodes\VSProject\sudoku\x64\Debug\UnitTest.exp
   UnitTest.vcxproj -> D:\Mycodes\VSProject\sudoku\x64\Debug\UnitTest.dll

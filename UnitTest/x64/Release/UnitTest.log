@@ -1,0 +1,8 @@
+﻿  pch.cpp
+  UnitTest.cpp
+Sudoku.obj : warning LNK4075: 忽略“/EDITANDCONTINUE”(由于“/OPT:ICF”规范)
+UnitTest.obj : error LNK2038: 检测到“_ITERATOR_DEBUG_LEVEL”的不匹配项: 值“0”不匹配值“2”(Sudoku.obj 中)
+UnitTest.obj : error LNK2038: 检测到“RuntimeLibrary”的不匹配项: 值“MD_DynamicRelease”不匹配值“MDd_DynamicDebug”(Sudoku.obj 中)
+    正在创建库 D:\Mycodes\VSProject\sudoku\x64\Release\UnitTest.lib 和对象 D:\Mycodes\VSProject\sudoku\x64\Release\UnitTest.exp
+LINK : warning LNK4098: 默认库“MSVCRT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
+D:\Mycodes\VSProject\sudoku\x64\Release\UnitTest.dll : fatal error LNK1319: 检测到 2 个不匹配项

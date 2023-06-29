@@ -73,7 +73,7 @@ bool Sudoku::solve_single_game(int chess_board[9][9], bool change_chess) {
 }
 
 void Sudoku::gen_single_over(int chess_board[9][9]) {
-	static int offset[] = { 0, 3, 6, 1, 7, 4, 2, 5, 8 }; // 这个是不是定义成全局变量比较好？
+	static const int offset[] = { 0, 3, 6, 1, 7, 4, 2, 5, 8 }; // 这个是不是定义成全局变量比较好？
 	static int first_row[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	static int bunch[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 
