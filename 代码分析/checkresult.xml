@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="2.11"/>
+    <errors>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &amp;lt;string&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &amp;lt;string&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." sinceDate="yyyy/M/d">
+            <location file="..\..\..\..\Mycodes\VSProject\sudoku\Sudoku\Sudoku.h" line="3"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &amp;lt;vector&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &amp;lt;vector&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." sinceDate="yyyy/M/d">
+            <location file="..\..\..\..\Mycodes\VSProject\sudoku\Sudoku\Sudoku.h" line="4"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &amp;lt;algorithm&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &amp;lt;algorithm&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." sinceDate="yyyy/M/d">
+            <location file="..\..\..\..\Mycodes\VSProject\sudoku\Sudoku\Sudoku.cpp" line="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &amp;lt;iostream&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &amp;lt;iostream&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." sinceDate="yyyy/M/d">
+            <location file="..\..\..\..\Mycodes\VSProject\sudoku\Sudoku\Sudoku.cpp" line="3"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &amp;lt;fstream&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &amp;lt;fstream&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." sinceDate="yyyy/M/d">
+            <location file="..\..\..\..\Mycodes\VSProject\sudoku\Sudoku\Sudoku.cpp" line="4"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &amp;lt;vector&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &amp;lt;vector&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." sinceDate="yyyy/M/d">
+            <location file="..\..\..\..\Mycodes\VSProject\sudoku\Sudoku\Sudoku.cpp" line="5"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &amp;lt;assert.h&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &amp;lt;assert.h&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." sinceDate="yyyy/M/d">
+            <location file="..\..\..\..\Mycodes\VSProject\sudoku\Sudoku\Sudoku.cpp" line="6"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &amp;lt;stdlib.h&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &amp;lt;stdlib.h&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." sinceDate="yyyy/M/d">
+            <location file="..\..\..\..\Mycodes\VSProject\sudoku\Sudoku\Sudoku.cpp" line="7"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &amp;lt;time.h&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &amp;lt;time.h&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." sinceDate="yyyy/M/d">
+            <location file="..\..\..\..\Mycodes\VSProject\sudoku\Sudoku\Sudoku.cpp" line="8"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &amp;lt;iostream&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &amp;lt;iostream&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." sinceDate="yyyy/M/d">
+            <location file="..\..\..\..\Mycodes\VSProject\sudoku\Sudoku\main.cpp" line="3"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &amp;lt;string&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &amp;lt;string&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." sinceDate="yyyy/M/d">
+            <location file="..\..\..\..\Mycodes\VSProject\sudoku\Sudoku\main.cpp" line="4"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &amp;lt;algorithm&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &amp;lt;algorithm&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." sinceDate="yyyy/M/d">
+            <location file="..\..\..\..\Mycodes\VSProject\sudoku\Sudoku\main.cpp" line="5"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &amp;lt;chrono&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &amp;lt;chrono&amp;gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." sinceDate="yyyy/M/d">
+            <location file="..\..\..\..\Mycodes\VSProject\sudoku\Sudoku\main.cpp" line="6"/>
+        </error>
+    </errors>
+</results>
