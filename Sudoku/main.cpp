@@ -110,7 +110,7 @@ void parser_arg(int argc, char* argv[]) {
 			exit(0);
 		}
 	}
-	if (op_type != GEN_GAME && (only_one_res || diffculty != BOT || lattice_num != 0)) {
+	if (op_type != GEN_GAME && (only_one_res || diffculty != BOT || min_lattice_num != 0)) {
 		cout << "arguments error" << endl;
 		exit(0);
 	}
